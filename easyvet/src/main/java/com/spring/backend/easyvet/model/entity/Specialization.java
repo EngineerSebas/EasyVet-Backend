@@ -14,7 +14,6 @@ import java.util.Set;
  * 
  * @author Andrés.
  */
-
 @Entity
 @Table(name = "specialization")
 @NoArgsConstructor

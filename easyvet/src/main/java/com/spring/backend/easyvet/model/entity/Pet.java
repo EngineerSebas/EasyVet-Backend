@@ -41,7 +41,10 @@ public class Pet implements Serializable{
 	
 	@Column(nullable = false, length = 60)
 	private String breed;
-	
+
+	@Column(nullable = false, length = 60)
+	private String sex;
+
 	@ManyToMany(mappedBy = "pets")
 	Set<Propietor> propietors = new HashSet<>();
 	
