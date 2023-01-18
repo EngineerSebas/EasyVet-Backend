@@ -26,8 +26,10 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "roles")
-@NoArgsConstructor @Getter @Setter
+@Table(name = "role")
+@NoArgsConstructor
+@Getter
+@Setter
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
