@@ -37,4 +37,7 @@ public class UserRole implements Serializable {
 
     @OneToOne(mappedBy = "userRole")
     private Veterinary veterinary;
+    
+    @OneToOne(mappedBy = "userRole")
+    private Propietor propietor;
 }
