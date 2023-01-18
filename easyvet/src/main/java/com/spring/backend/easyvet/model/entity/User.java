@@ -27,7 +27,7 @@ import lombok.Setter;
  */
 
 @Entity
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -55,7 +55,7 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 50)
 	private String city;
 
-	@Column(nullable = false, length = 50)
+	@Column(nullable = false, length = 255)
 	private String email;
 
 	@Column(nullable = false, length = 255)
