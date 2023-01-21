@@ -2,18 +2,14 @@ package com.spring.backend.easyvet.model.entity;
 
 import java.io.Serializable;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -26,8 +22,7 @@ import lombok.Setter;
  * @author Andrés.
  */
 
-@Entity
-@Table(name = "user", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -55,12 +50,19 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 50)
 	private String city;
 
-	@Column(nullable = false, length = 255)
+	@Column(nullable = false, length = 255, unique = true)
 	private String email;
 
 	@Column(nullable = false, length = 255)
 	private String password;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRole> userRole = new HashSet<>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "role_id", referencedColumnName = "id")
+	private Role role;
+	
+	public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    
 }

@@ -7,14 +7,21 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/**
+ * Entity Role.
+ * 
+ * @author Andrés.
+ */
+
 @Entity
 @Table(name = "veterinary")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Veterinary implements Serializable {
+public class Veterinary extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,8 +41,9 @@ public class Veterinary implements Serializable {
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "specialization_id")
     private Specialization specialization;
-
-    @OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "user_role_id")
-    private UserRole userRole;
+    
+    public Veterinary(String email, String password) {
+        super(email, password);
+    }
+    
 }

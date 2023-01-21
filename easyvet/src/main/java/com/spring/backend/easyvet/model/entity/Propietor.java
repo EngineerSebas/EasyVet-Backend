@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -31,7 +30,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Propietor implements Serializable {
+public class Propietor extends User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -39,14 +38,14 @@ public class Propietor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@OneToOne(orphanRemoval = true)
-    @JoinColumn(name = "user_role_id")
-    private UserRole userRole;
-	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "pet_propietor", 
 		joinColumns = @JoinColumn(name="propietor_id", referencedColumnName = "id"),
 		inverseJoinColumns = @JoinColumn(name = "pet_id", referencedColumnName = "id"))
 	private Set<Pet> pets = new HashSet<>();
+	
+	public Propietor(String email, String password) {
+        super(email, password);
+    }
 	
 }

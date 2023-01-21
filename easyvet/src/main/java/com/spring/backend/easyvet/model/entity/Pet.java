@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,6 +47,7 @@ public class Pet implements Serializable{
 	@Column(nullable = false, length = 60)
 	private String sex;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "pets")
 	Set<Propietor> propietors = new HashSet<>();
 	

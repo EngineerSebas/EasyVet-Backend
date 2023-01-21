@@ -6,14 +6,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Entity Role.
  * 
  * @author Andrés.
  */
+
 @Entity
 @Table(name = "specialization")
 @NoArgsConstructor
