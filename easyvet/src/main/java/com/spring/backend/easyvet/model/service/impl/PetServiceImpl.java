@@ -13,6 +13,7 @@ import com.spring.backend.easyvet.dto.PetDTO;
 import com.spring.backend.easyvet.model.entity.Pet;
 import com.spring.backend.easyvet.model.repository.IPetRepository;
 import com.spring.backend.easyvet.model.service.IPetService;
+import com.spring.backend.easyvet.model.service.IPropietorService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -28,6 +29,9 @@ public class PetServiceImpl implements IPetService{
 	
 	@Autowired
 	private IPetRepository petRepository;
+	
+	@Autowired
+	private IPropietorService propietorService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -49,6 +53,7 @@ public class PetServiceImpl implements IPetService{
 	@Transactional
 	public Pet createPet(PetDTO petDTO) {
 		Pet pet = new Pet();
+		pet.setPropietor(propietorService.findPropietorById(petDTO.getPropietor_id()));
 		BeanUtils.copyProperties(petDTO, pet);
 		return petRepository.save(pet);
 	}

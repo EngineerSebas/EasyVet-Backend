@@ -16,6 +16,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.spring.backend.easyvet.dto.ExceptionResponseDTO;
@@ -54,6 +55,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 			WebRequest request) {
 		return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
 				.error("duplicate key value violates unique constraint").message(Map.of("error", ex.getMessage()))
+				.build(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ResponseStatusException.class)
+	protected ResponseEntity<Object> handleEmptyValuesException(Exception ex, 
+			WebRequest request) {
+		return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
+				.error("All the fields are required").message(Map.of("error", ex.getMessage()))
 				.build(), HttpStatus.BAD_REQUEST);
 	}
 

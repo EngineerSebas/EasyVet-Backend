@@ -1,17 +1,18 @@
 package com.spring.backend.easyvet.model.entity;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -46,9 +47,14 @@ public class Pet implements Serializable{
 
 	@Column(nullable = false, length = 60)
 	private String sex;
-
+	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "pets")
-	Set<Propietor> propietors = new HashSet<>();
+	@Column(name = "propietor_id", nullable = false)
+	private Long propietor_id;
+	
+	@JsonBackReference
+	@ManyToOne(optional = false)
+	@JoinColumn( name = "propietor_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private Propietor propietor;
 	
 }

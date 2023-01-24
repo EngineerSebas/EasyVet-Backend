@@ -56,6 +56,9 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 255)
 	private String password;
 	
+	@Column(nullable = false, length = 23)
+	private String dni;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", referencedColumnName = "id")
 	private Role role;
