@@ -3,7 +3,6 @@ package com.spring.backend.easyvet.dto;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,7 +35,6 @@ public class PetDTO {
 	@NotEmpty
 	private String sex;
 	
-	//@NotNull(message = "The propietor id is required")
 	private Long propietor_id;
 	
     @JsonCreator

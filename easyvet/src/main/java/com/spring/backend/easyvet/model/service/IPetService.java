@@ -16,6 +16,8 @@ public interface IPetService {
 	public List<Pet> findAllPets();
 
 	public Pet findPetById(Long id);
+	
+	public List<Pet> findPetsByDNI(String dni);
 
 	public Pet createPet(PetDTO petDTO);
 

@@ -1,6 +1,7 @@
 package com.spring.backend.easyvet.model.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -11,9 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.backend.easyvet.dto.PetDTO;
 import com.spring.backend.easyvet.model.entity.Pet;
+import com.spring.backend.easyvet.model.entity.Propietor;
 import com.spring.backend.easyvet.model.repository.IPetRepository;
+import com.spring.backend.easyvet.model.repository.IPropietorRepository;
 import com.spring.backend.easyvet.model.service.IPetService;
-import com.spring.backend.easyvet.model.service.IPropietorService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,7 +33,7 @@ public class PetServiceImpl implements IPetService{
 	private IPetRepository petRepository;
 	
 	@Autowired
-	private IPropietorService propietorService;
+	private IPropietorRepository propietorRepository;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -53,7 +55,12 @@ public class PetServiceImpl implements IPetService{
 	@Transactional
 	public Pet createPet(PetDTO petDTO) {
 		Pet pet = new Pet();
-		pet.setPropietor(propietorService.findPropietorById(petDTO.getPropietor_id()));
+		
+		Optional<Propietor> propietorOptional = propietorRepository.findById(petDTO.getPropietor_id());
+		if(propietorOptional.isPresent()) {
+			Propietor propietor = propietorOptional.get();
+			pet.setPropietor(propietor);
+		}
 		BeanUtils.copyProperties(petDTO, pet);
 		return petRepository.save(pet);
 	}
@@ -76,5 +83,16 @@ public class PetServiceImpl implements IPetService{
 	public void deletePetById(Long id) {
 		this.findPetById(id);
 		petRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Pet> findPetsByDNI(String dni) {
+		List<Pet> pets = petRepository.findPetsByDNI(dni);
+		if(pets == null || pets.isEmpty() ) {
+			throw new EntityNotFoundException("The asociated dni " + dni + " was not found");
+		}
+		return pets;
+		
 	}
 }

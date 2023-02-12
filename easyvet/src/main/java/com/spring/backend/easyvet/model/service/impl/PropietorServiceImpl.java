@@ -1,5 +1,7 @@
 package com.spring.backend.easyvet.model.service.impl;
 
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.spring.backend.easyvet.dto.PropietorListDTO;
+import com.spring.backend.easyvet.dto.PropietorUpdateDTO;
 import com.spring.backend.easyvet.model.entity.Propietor;
 import com.spring.backend.easyvet.model.entity.Role;
 import com.spring.backend.easyvet.model.repository.IPropietorRepository;
@@ -29,12 +33,18 @@ public class PropietorServiceImpl implements IPropietorService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Propietor findPropietorById(Long id) {
-		Propietor propietor = propietorRepository.findPropietorById(id);
-        if(propietor == null){
+	public PropietorListDTO findPropietorById(Long id) {
+		PropietorListDTO propietorListDTO = propietorRepository.findPropietorById(id);
+        if(propietorListDTO == null){
             throw new EntityNotFoundException("the propietor with id " + id + " was not found");
         }
-        return propietor; 
+        return propietorListDTO; 
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<PropietorListDTO> findAllPropietors() {
+		return propietorRepository.findAllPropietors();
 	}
 
 	@Override
@@ -63,5 +73,32 @@ public class PropietorServiceImpl implements IPropietorService{
 		}
 	}
 
+	@Override
+	public void updatePropietor(String email, PropietorUpdateDTO propietorUpdateDTO, String currentPassword) {
 
+		Propietor user = propietorRepository.findByEmail(propietorUpdateDTO.getEmail()).get();
+		
+		try {
+			if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+				throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Incorrect password");
+			}
+			
+			user.setCity(propietorUpdateDTO.getCity());
+			user.setCountry(propietorUpdateDTO.getCountry());
+			user.setEmail(propietorUpdateDTO.getEmail());
+			user.setLast_name(propietorUpdateDTO.getLast_name());
+			user.setName(propietorUpdateDTO.getName());
+			user.setPassword(passwordEncoder.encode(propietorUpdateDTO.getPassword()));
+			user.setPhone(propietorUpdateDTO.getPhone());			
+			user.setDni(propietorUpdateDTO.getDni());
+			
+			propietorRepository.save(user);
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage().toString());
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, 
+					 "Required properties are missing");
+		}
+		
+	}
 }

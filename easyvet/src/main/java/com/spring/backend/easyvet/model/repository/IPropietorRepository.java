@@ -1,10 +1,13 @@
 package com.spring.backend.easyvet.model.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import com.spring.backend.easyvet.dto.PropietorListDTO;
 import com.spring.backend.easyvet.model.entity.Propietor;
 
 /**
@@ -16,7 +19,11 @@ import com.spring.backend.easyvet.model.entity.Propietor;
 @Repository
 public interface IPropietorRepository extends CrudRepository<Propietor, Long>{
 
-	public Propietor findPropietorById(Long id);
+	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (name, last_name, phone, country, city, email,dni) FROM Propietor propietor WHERE propietor.id = ?1")
+	public PropietorListDTO findPropietorById(Long id);
+	
+	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (name, last_name, phone, country, city, email, dni) FROM Propietor propietor")
+	public List<PropietorListDTO> findAllPropietors();
 	
 	public Optional<Propietor> findByEmail(String email); 
 	

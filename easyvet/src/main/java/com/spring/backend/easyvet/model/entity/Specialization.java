@@ -28,7 +28,4 @@ public class Specialization implements Serializable {
 	
 	@Column(nullable = false, length = 60)
 	private String pet_specialization;
-
-	@OneToOne(mappedBy = "specialization")
-	private Veterinary veterinary;
 }

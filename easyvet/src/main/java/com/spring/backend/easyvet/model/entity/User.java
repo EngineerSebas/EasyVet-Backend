@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -55,6 +56,9 @@ public class User implements Serializable {
 
 	@Column(nullable = false, length = 255)
 	private String password;
+	
+	@Transient
+	private String currentPassword;
 	
 	@Column(nullable = false, length = 23)
 	private String dni;

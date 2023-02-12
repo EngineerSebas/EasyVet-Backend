@@ -1,11 +1,15 @@
 package com.spring.backend.easyvet.exception;
 
+import java.net.MalformedURLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DuplicateKeyException;
@@ -65,5 +69,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 				.error("All the fields are required").message(Map.of("error", ex.getMessage()))
 				.build(), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(ResourceNotFoundException.class)
+	protected ResponseEntity<Object> handleResourceNotFoundException(Exception ex, 
+			WebRequest request) {
+		return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
+				.error("The resource you are triying to find, was not found!!").message(Map.of("error", ex.getMessage()))
+				.build(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handle(Exception ex, 
+                HttpServletRequest request, HttpServletResponse response) {
+        if (ex instanceof NullPointerException) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
+				.error("Error detected!!").message(Map.of("error", ex.getMessage()))
+				.build(), HttpStatus.BAD_REQUEST);
+    }
 
+	@ExceptionHandler(MalformedURLException.class)
+	protected ResponseEntity<Object> handleMalformedUrlException(MalformedURLException ex, 
+			WebRequest request) {
+		return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
+				.error("The url you are triying to find, was not found!!").message(Map.of("error", ex.getMessage()))
+				.build(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(MessagingException.class)
+	protected ResponseEntity<Object> handleMessaginException(MessagingException ex, 
+			WebRequest request) {
+		return new ResponseEntity<>(ExceptionResponseDTO.builder().timestamp(LocalDateTime.now())
+				.error("Error on sending email").message(Map.of("error", ex.getMessage()))
+				.build(), HttpStatus.BAD_REQUEST);
+	}
 }
