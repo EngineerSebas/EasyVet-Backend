@@ -9,8 +9,6 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.backend.easyvet.util.EVeterinaryStatus;
 
-import java.io.Serializable;
-
 /**
  * Entity Role.
  * 
@@ -21,9 +19,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Veterinary extends User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Veterinary extends User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

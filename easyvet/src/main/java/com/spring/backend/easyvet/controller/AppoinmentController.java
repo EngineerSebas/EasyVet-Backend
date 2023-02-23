@@ -56,4 +56,11 @@ public class AppoinmentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 	
+	@PreAuthorize("hasRole('VETERYNARY')")
+	@PutMapping("/veterinaries/{veterinaryId}/appointments/{appointmentId}/confirm")
+	public ResponseEntity<?> confirmAppointment(@PathVariable Long veterinaryId, @PathVariable Long appointmentId) {
+	    appoinmentService.confirmAppointment(veterinaryId, appointmentId);
+	    return ResponseEntity.ok().build();
+	}
+	
 }

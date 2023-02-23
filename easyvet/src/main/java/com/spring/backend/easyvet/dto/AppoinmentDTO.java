@@ -6,6 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.spring.backend.easyvet.util.EAppoinmentStatus;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,13 +36,16 @@ public class AppoinmentDTO {
 	@NotEmpty(message = "videocall meet link is required")
 	private String videocall_meet;
 	
+	private EAppoinmentStatus appoinment_status;
+	
 	public AppoinmentDTO(@JsonProperty("id")Long id,
 			@JsonProperty("propietor_id")Long propietor_id,
 			@JsonProperty("veterynary_id")Long veterynary_id,
 			@JsonProperty("type_appoinment")String type_appoinment,
 			@JsonProperty("date_appoinment")Date date_appoinment, 
 			@JsonProperty("rate_appoinment")Double rate_appoinment,
-			@JsonProperty("videocall_meet") String videocall_meet) {
+			@JsonProperty("videocall_meet") String videocall_meet,
+			@JsonProperty("appoinment_status") EAppoinmentStatus appoinment_status) {
 		this.id = id;
 		this.propietor_id = propietor_id;
 		this.veterynary_id = veterynary_id;
@@ -49,6 +53,7 @@ public class AppoinmentDTO {
 		this.date_appoinment = date_appoinment;
 		this.rate_appoinment = rate_appoinment;
 		this.videocall_meet = videocall_meet;
+		this.appoinment_status = appoinment_status;
 	}
 	
 }

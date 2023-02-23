@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.backend.easyvet.dto.AppoinmentDTO;
+import com.spring.backend.easyvet.exception.BadRequestException;
 import com.spring.backend.easyvet.exception.ResourceNotFoundException;
 import com.spring.backend.easyvet.model.entity.Appoinment;
 import com.spring.backend.easyvet.model.entity.Propietor;
@@ -17,6 +18,7 @@ import com.spring.backend.easyvet.model.repository.IAppoinmentRepository;
 import com.spring.backend.easyvet.model.repository.IPropietorRepository;
 import com.spring.backend.easyvet.model.repository.IVeterynaryRepository;
 import com.spring.backend.easyvet.model.service.IAppoinmentService;
+import com.spring.backend.easyvet.util.EAppoinmentStatus;
 
 @Service
 public class AppoinmentServiceImpl implements IAppoinmentService{
@@ -53,6 +55,8 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 			Veterinary veterinary = veterinaryOptional.get();
 			appoinment.setVeterynary(veterinary);
 		}
+		
+		appoinment.setAppoinment_status(EAppoinmentStatus.NOT_CONFIRMED);
 		
 		BeanUtils.copyProperties(appoinmentDTO, appoinment);
 		return appoinmentRepository.save(appoinment);	
@@ -100,6 +104,7 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
                 Veterinary veterinary = veterinaryOptional.get();
                 appoinment.setVeterynary(veterinary);
             }
+            appoinment.setAppoinment_status(appoinmentDTO.getAppoinment_status());
             
             BeanUtils.copyProperties(appoinmentDTO, appoinment);
             return appoinmentRepository.save(appoinment);	
@@ -119,5 +124,20 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
             throw new ResourceNotFoundException("Appoinment not found with id " + id);
         }
 	}
+	
+	@Override
+	@Transactional
+	public void confirmAppointment(Long veterinaryId, Long appointmentId) {
+	    Appoinment appointment = appoinmentRepository.findById(appointmentId)
+	            .orElseThrow(() -> new ResourceNotFoundException("Appointment with id" + appointmentId + "not found"));
+
+	    if (!appointment.getVeterynary().getId().equals(veterinaryId)) {
+	        throw new BadRequestException("This appointment doesn't belong to the provided veterinary.");
+	    }
+
+	    appointment.setAppoinment_status(EAppoinmentStatus.CONFIRMED);
+	    appoinmentRepository.save(appointment);
+	}
+
 
 }

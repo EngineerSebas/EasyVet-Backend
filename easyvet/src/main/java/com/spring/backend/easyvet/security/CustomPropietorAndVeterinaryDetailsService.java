@@ -18,8 +18,8 @@ import com.spring.backend.easyvet.model.repository.IPropietorRepository;
 import com.spring.backend.easyvet.model.repository.IVeterynaryRepository;
 
 @Service
-public class CustomPropietorAndVeterinaryDetailsService implements UserDetailsService {
-	
+public class CustomPropietorAndVeterinaryDetailsService implements UserDetailsService{
+
 	@Autowired
 	private IPropietorRepository propietorRepository;
 	

@@ -1,6 +1,5 @@
 package com.spring.backend.easyvet.model.entity;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,9 +28,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Propietor extends User implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Propietor extends User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
