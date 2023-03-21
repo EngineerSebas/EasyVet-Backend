@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * BCryptPassword Configuration.
  * 
- * @author Andrés.
+ * @author Sebastian.
  */
 
 @Configuration

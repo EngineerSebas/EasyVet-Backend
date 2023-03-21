@@ -33,10 +33,10 @@ public class PropietorServiceImpl implements IPropietorService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public PropietorListDTO findPropietorById(Long id) {
-		PropietorListDTO propietorListDTO = propietorRepository.findPropietorById(id);
+	public PropietorListDTO findPropietorByEmail(String email) {
+		PropietorListDTO propietorListDTO = propietorRepository.findPropietorByEmail(email);
         if(propietorListDTO == null){
-            throw new EntityNotFoundException("the propietor with id " + id + " was not found");
+            throw new EntityNotFoundException("the propietor with email " + email + " was not found");
         }
         return propietorListDTO; 
 	}

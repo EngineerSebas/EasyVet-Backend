@@ -9,6 +9,8 @@ import lombok.Setter;
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class VeterinaryListDTO {
+	private Long id;
+	private String dni;
 	private String name;
 	private String last_name;
 	private String phone;

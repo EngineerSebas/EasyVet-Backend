@@ -25,7 +25,7 @@ import com.spring.backend.easyvet.security.JwtAuthenticationFilter;
 /**
  * SpringSecurity Configuration.
  * 
- * @author Andrés.
+ * @author Sebastian.
  */
 
 @EnableWebSecurity
@@ -52,7 +52,7 @@ public class SpringSecurityConfig {
 		http.csrf().disable()
 			.authorizeHttpRequests()
 			.antMatchers("/api/auth/**").permitAll()
-			.antMatchers("/pet/**").hasAuthority("ROLE_PROPIETOR")
+			.antMatchers("/pet/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

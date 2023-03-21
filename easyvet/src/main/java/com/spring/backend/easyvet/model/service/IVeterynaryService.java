@@ -12,7 +12,7 @@ public interface IVeterynaryService {
 	
 	public List<VeterinaryListDTO> findAllVeterinaries();
 
-	public VeterinaryListDTO findVeterinaryById(Long id);
+	public VeterinaryListDTO findVeterinaryByEmail(String email);
 	
 	public List<VeterinaryListDTO> findVeterinariesByStatus(EVeterinaryStatus status);
 	

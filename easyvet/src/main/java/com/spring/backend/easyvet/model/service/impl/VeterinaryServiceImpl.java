@@ -41,10 +41,10 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public VeterinaryListDTO findVeterinaryById(Long id) {
-		VeterinaryListDTO veterinaryListDTO = veterynaryRepository.findVeterinaryById(id);
+	public VeterinaryListDTO findVeterinaryByEmail(String email) {
+		VeterinaryListDTO veterinaryListDTO = veterynaryRepository.findVeterinaryByEmail(email);
         if(veterinaryListDTO == null){
-            throw new EntityNotFoundException("the veterinary with id " + id + " was not found");
+            throw new EntityNotFoundException("the veterinary with id " + email + " was not found");
         }
         return veterinaryListDTO; 
 	}

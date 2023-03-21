@@ -5,13 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.spring.backend.easyvet.dto.VeterinaryDTO;
 import com.spring.backend.easyvet.dto.VeterinaryListDTO;
@@ -23,6 +17,7 @@ import com.spring.backend.easyvet.model.service.impl.EmailServiceImpl;
 import com.spring.backend.easyvet.util.EVeterinaryStatus;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/auth")
 public class VeterinaryController {
 	
@@ -40,9 +35,9 @@ public class VeterinaryController {
 		return new ResponseEntity<>(veterynaryService.findAllVeterinaries(), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/get-veterinary/{id}", produces = "application/json")
-	public ResponseEntity<VeterinaryListDTO> findVeterinaryById(@PathVariable(name = "id")Long id) {
-		return new ResponseEntity<>(veterynaryService.findVeterinaryById(id), HttpStatus.OK);
+	@GetMapping(path = "/get-veterinary/{email}", produces = "application/json")
+	public ResponseEntity<VeterinaryListDTO> findVeterinaryById(@PathVariable(name = "email")String email) {
+		return new ResponseEntity<>(veterynaryService.findVeterinaryByEmail(email), HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/get-veterinaries-status/{status}", produces = "application/json")

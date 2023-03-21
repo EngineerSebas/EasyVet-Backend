@@ -12,7 +12,7 @@ public interface IPropietorService {
 	
 	public List<PropietorListDTO> findAllPropietors();
 
-	public PropietorListDTO findPropietorById(Long id);
+	public PropietorListDTO findPropietorByEmail(String email);
 	
     public void registerPropietor(Propietor propietor);
     public void updatePropietor(String email, PropietorUpdateDTO propietorUpdateDTO, String currentPassword);

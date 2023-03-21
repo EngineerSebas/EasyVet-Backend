@@ -7,6 +7,7 @@ import lombok.Setter;
 
 @NoArgsConstructor @AllArgsConstructor @Getter @Setter
 public class PropietorListDTO {
+	private Long id;
 	private String name;
 	private String last_name;
 	private String phone;
