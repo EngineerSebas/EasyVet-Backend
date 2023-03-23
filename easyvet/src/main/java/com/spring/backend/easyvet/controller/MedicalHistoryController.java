@@ -19,13 +19,13 @@ public class MedicalHistoryController {
 	@Autowired
     private IMedicalHistoryService medicalHistoryService;
 	
-	@PreAuthorize("hasRole('VETERYNARY')")
+
 	@GetMapping(path = "/medical-history/{petId}", produces = "application/json")
 	public ResponseEntity<List<MedicalHistory>> getMedicalHistoryByPetId(@PathVariable(name = "petId") Long petId){
 		return new ResponseEntity<>(medicalHistoryService.getMedicalHistoryByPetId(petId), HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('VETERYNARY')")
+
     @PostMapping("/pet-medical-history")
     public ResponseEntity<Void> createPetMedicalHistory(@RequestBody MedicalHistoryDTO medicalHistoryDTO) {
     	medicalHistoryService.savePetMedicalHistory(medicalHistoryDTO);
