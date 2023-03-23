@@ -74,6 +74,27 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 
 	@Override
 	@Transactional(readOnly = true)
+	public List<Appoinment> findAllByPropietor_id(Long id) {
+		List<Appoinment> appoinments = appoinmentRepository.findAllByPropietor_id(id);
+		if (appoinments.isEmpty()) {
+			throw new ResourceNotFoundException("Appoinment with id " + id + " not found");
+		}
+		return appoinments;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Appoinment findAppoinmentByIdVeterynary(Long id) {
+		Optional<Appoinment> appoinment = Optional.ofNullable(appoinmentRepository.findByVeterynary_id(id));
+		if (!appoinment.isPresent()) {
+			throw new ResourceNotFoundException("Appoinment with id " + id + " not found");
+		}
+		return appoinment.get();
+	}
+
+
+	@Override
+	@Transactional(readOnly = true)
 	public List<Appoinment> findAllAppoinments() {
 	    return (List<Appoinment>) appoinmentRepository.findAll();
 	}

@@ -53,6 +53,7 @@ public class SpringSecurityConfig {
 			.authorizeHttpRequests()
 			.antMatchers("/api/auth/**").permitAll()
 			.antMatchers("/pet/**").permitAll()
+				.antMatchers("/appoinment/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -10,6 +10,9 @@ public interface IAppoinmentService {
 	public Appoinment registerAppoinment(AppoinmentDTO appoinmentDTO);
 	
 	public Appoinment findAppoinmentById(Long id);
+	public List<Appoinment> findAllByPropietor_id(Long id);
+
+	public Appoinment findAppoinmentByIdVeterynary(Long id);
 	
 	public List<Appoinment> findAllAppoinments();
 	

@@ -31,8 +31,18 @@ public class AppoinmentController {
     public ResponseEntity<Appoinment> getAppoinmentById(@PathVariable("id") Long id){
         return new ResponseEntity<>(appoinmentService.findAppoinmentById(id), HttpStatus.OK);
     }
-	
-	@PreAuthorize("hasRole('VETERINARY')")
+
+	@GetMapping(path = "/get-appoinment-propietor/{id}",produces = "application/json")
+	public ResponseEntity<List<Appoinment>> getAppoinmentByIdPropietor(@PathVariable("id") Long id){
+		return new ResponseEntity<>(appoinmentService.findAllByPropietor_id(id), HttpStatus.OK);
+	}
+
+	@GetMapping(path = "/get-appoinment-veterynary/{id}",produces = "application/json")
+	public ResponseEntity<Appoinment> getAppoinmentByIdVeterynary(@PathVariable("id") Long id){
+		return new ResponseEntity<>(appoinmentService.findAppoinmentByIdVeterynary(id), HttpStatus.OK);
+	}
+
+
     @PostMapping(path = "/create-appoinment", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Appoinment> createPet(@Valid @RequestBody AppoinmentDTO appoinmentDTO){
         return new ResponseEntity<>(appoinmentService.registerAppoinment(appoinmentDTO), HttpStatus.CREATED);
