@@ -38,7 +38,7 @@ public class AppoinmentController {
 	}
 
 	@GetMapping(path = "/get-appoinment-veterynary/{id}",produces = "application/json")
-	public ResponseEntity<Appoinment> getAppoinmentByIdVeterynary(@PathVariable("id") Long id){
+	public ResponseEntity<List<Appoinment>> getAppoinmentByIdVeterynary(@PathVariable("id") Long id){
 		return new ResponseEntity<>(appoinmentService.findAppoinmentByIdVeterynary(id), HttpStatus.OK);
 	}
 
@@ -61,9 +61,9 @@ public class AppoinmentController {
     }
 	
 	@PreAuthorize("hasRole('VETERYNARY')")
-	@PutMapping("/veterinaries/{veterinaryId}/appointments/{appointmentId}/confirm")
-	public ResponseEntity<?> confirmAppointment(@PathVariable Long veterinaryId, @PathVariable Long appointmentId) {
-	    appoinmentService.confirmAppointment(veterinaryId, appointmentId);
+	@PutMapping("/veterinaries/{veterinaryId}/appointments/{appointmentId}/confirm/{confirmed}")
+	public ResponseEntity<?> confirmAppointment(@PathVariable Long veterinaryId, @PathVariable Long appointmentId, @PathVariable Boolean confirmed) {
+	    appoinmentService.confirmAppointment(veterinaryId, appointmentId,confirmed);
 	    return ResponseEntity.ok().build();
 	}
 	

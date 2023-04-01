@@ -42,7 +42,8 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 		appoinment.setRate_appoinment(appoinmentDTO.getRate_appoinment());
 		appoinment.setType_appoinment(appoinmentDTO.getType_appoinment());
 		appoinment.setVideocall_meet(appoinmentDTO.getVideocall_meet());
-		
+		appoinment.setName_veterynary(appoinmentDTO.getName_veterynary());
+
 		Optional<Propietor> propietorOptional = propietorRepository.findById(appoinmentDTO.getPropietor_id());
 		if(propietorOptional.isPresent()) {
 			Propietor propietor = propietorOptional.get();
@@ -84,12 +85,12 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Appoinment findAppoinmentByIdVeterynary(Long id) {
-		Optional<Appoinment> appoinment = Optional.ofNullable(appoinmentRepository.findByVeterynary_id(id));
-		if (!appoinment.isPresent()) {
+	public List<Appoinment> findAppoinmentByIdVeterynary(Long id) {
+		List<Appoinment> appoinments = appoinmentRepository.findAllByVeterynary_id(id);
+		if (appoinments.isEmpty()) {
 			throw new ResourceNotFoundException("Appoinment with id " + id + " not found");
 		}
-		return appoinment.get();
+		return appoinments;
 	}
 
 
@@ -148,16 +149,20 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 	
 	@Override
 	@Transactional
-	public void confirmAppointment(Long veterinaryId, Long appointmentId) {
+	public void confirmAppointment(Long veterinaryId, Long appointmentId, Boolean confirmed) {
 	    Appoinment appointment = appoinmentRepository.findById(appointmentId)
 	            .orElseThrow(() -> new ResourceNotFoundException("Appointment with id" + appointmentId + "not found"));
 
 	    if (!appointment.getVeterynary().getId().equals(veterinaryId)) {
 	        throw new BadRequestException("This appointment doesn't belong to the provided veterinary.");
 	    }
-
-	    appointment.setAppoinment_status(EAppoinmentStatus.CONFIRMED);
+		if(confirmed){
+				        appointment.setAppoinment_status(EAppoinmentStatus.CONFIRMED);
+	    }else {
+	        appointment.setAppoinment_status(EAppoinmentStatus.NOT_CONFIRMED);
+	    }
 	    appoinmentRepository.save(appointment);
+
 	}
 
 
