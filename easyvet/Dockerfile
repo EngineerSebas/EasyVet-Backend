@@ -1,5 +1,5 @@
 FROM amazoncorretto:11-alpine-jdk
 MAINTAINER JSB
-COPY target/easyvet-0.0.1-SNAPSHOT.jar /app.jar
+COPY C:/Users/Administrador/Documents/GitHub/EasyVet-Backend/easyvet/target/easyvet-0.0.1-SNAPSHOT.jar /app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
