@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,31 +33,48 @@ public class PetController {
 	@Autowired
 	private IPetService petService;
 
-	@GetMapping(path = "/get-all-pets",  produces = "application/json")
+	@GetMapping(
+        path = "/get-all-pets",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
 	public ResponseEntity<List<Pet>> getAllPets(){
 		return new ResponseEntity<>(petService.findAllPets(), HttpStatus.OK);
 	}
 
     @PreAuthorize("hasRole('PROPIETOR')")
-	@GetMapping(path = "/get-pet/{id}",produces = "application/json")
+	@GetMapping(
+        path = "/get-pet/{id}", 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Pet> getPetById(@PathVariable("id") Long id){
         return new ResponseEntity<>(petService.findPetById(id), HttpStatus.OK);
     }
 	
 	@PreAuthorize("hasRole('PROPIETOR')")
-	@GetMapping(path = "/get-pets-dni/{dni}",produces = "application/json")
+	@GetMapping(
+        path = "/get-pets-dni/{dni}", 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<List<Pet>> getPetById(@PathVariable("dni") String dni){
         return new ResponseEntity<>(petService.findPetsByDNI(dni), HttpStatus.OK);
     }
 
 	@PreAuthorize("hasRole('PROPIETOR')")
-    @PostMapping(path = "/create-pet", consumes = "application/json", produces = "application/json")
+    @PostMapping( 
+        path = "/create-pet", 
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Pet> createPet(@Valid @RequestBody PetDTO petDTO){
         return new ResponseEntity<>(petService.createPet(petDTO), HttpStatus.CREATED);
     }
 
 	@PreAuthorize("hasRole('PROPIETOR')")
-    @PutMapping(path = "/update-pet/{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(
+        path = "/update-pet/{id}",
+        consumes = MediaType.APPLICATION_JSON_VALUE, 
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<Pet> updatePet(@PathVariable(name = "id") Long id,
     		@Valid @RequestBody PetDTO petDTO){
         return new ResponseEntity<>(petService.updatePet(id, petDTO), HttpStatus.OK);

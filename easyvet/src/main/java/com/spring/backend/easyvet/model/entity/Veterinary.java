@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,7 +20,6 @@ import com.spring.backend.easyvet.util.EVeterinaryStatus;
  */
 @Entity
 @Table(name = "veterinary")
-@NoArgsConstructor
 @Getter
 @Setter
 public class Veterinary extends User {
@@ -48,9 +51,8 @@ public class Veterinary extends User {
     @Enumerated(EnumType.STRING)
     @Column(name = "veterinary_status", nullable = false)
     private EVeterinaryStatus veterinary_status;
-    
-    public Veterinary(String email, String password) {
-        super(email, password);
-    }
-    
+
+    @OneToMany(mappedBy = "veterinary", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Schedule> schedule = new ArrayList<>();
+       
 }

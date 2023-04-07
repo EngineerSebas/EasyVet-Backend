@@ -1,5 +1,6 @@
 package com.spring.backend.easyvet.dto;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,10 +17,6 @@ import lombok.Setter;
 public class AppoinmentDTO {
 	
 	private Long id;
-	
-	private Long propietor_id;	
-	
-	private Long veterynary_id;
 	
 	@NotEmpty(message = "type of appoinment is required")
 	private String type_appoinment;
@@ -38,22 +35,16 @@ public class AppoinmentDTO {
 	
 	private EAppoinmentStatus appoinment_status;
 	
-	public AppoinmentDTO(@JsonProperty("id")Long id,
-			@JsonProperty("propietor_id")Long propietor_id,
-			@JsonProperty("veterynary_id")Long veterynary_id,
+	public AppoinmentDTO(
 			@JsonProperty("type_appoinment")String type_appoinment,
 			@JsonProperty("date_appoinment")Date date_appoinment, 
 			@JsonProperty("rate_appoinment")Double rate_appoinment,
-			@JsonProperty("videocall_meet") String videocall_meet,
-			@JsonProperty("appoinment_status") EAppoinmentStatus appoinment_status) {
-		this.id = id;
-		this.propietor_id = propietor_id;
-		this.veterynary_id = veterynary_id;
+			@JsonProperty("videocall_meet") String videocall_meet ) {
+		//this.id = id;
 		this.type_appoinment = type_appoinment;
 		this.date_appoinment = date_appoinment;
 		this.rate_appoinment = rate_appoinment;
 		this.videocall_meet = videocall_meet;
-		this.appoinment_status = appoinment_status;
 	}
 	
 }

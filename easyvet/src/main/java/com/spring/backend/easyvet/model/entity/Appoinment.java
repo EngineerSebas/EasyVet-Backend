@@ -1,6 +1,7 @@
 package com.spring.backend.easyvet.model.entity;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -20,17 +21,17 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.spring.backend.easyvet.util.EAppoinmentStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "appoinment")
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
 public class Appoinment implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -38,23 +39,15 @@ public class Appoinment implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonIgnore
-	@Column(name = "propietor_id", nullable = false)
-	private Long propietor_id;
-	
+
 	@JsonBackReference
 	@ManyToOne(optional = false)
-	@JoinColumn( name = "propietor_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn( name = "propietor_id", referencedColumnName = "id")
 	private Propietor propietor;	
 	
-	@JsonIgnore
-	@Column(name = "veterynary_id", nullable = false)
-	private Long veterynary_id;
-	
 	@JsonBackReference
 	@ManyToOne(optional = false)
-	@JoinColumn( name = "veterynary_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JoinColumn( name = "veterynary_id", referencedColumnName = "id")
 	private Veterinary veterynary;
 	
 	@Column(nullable = false, length = 80)
@@ -76,4 +69,7 @@ public class Appoinment implements Serializable{
 	@Enumerated(EnumType.STRING)
     @Column(name = "appoinment_status", nullable = false)
     private EAppoinmentStatus appoinment_status;
+
+	@Column(name = "appoinment_hour", nullable = false)
+	private LocalTime appoinmentHour;
 }

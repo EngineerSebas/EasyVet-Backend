@@ -1,9 +1,14 @@
 package com.spring.backend.easyvet.controller;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,32 +35,47 @@ public class VeterinaryController {
 	@Autowired
 	private EmailServiceImpl emailServiceImpl;
 	
-	@GetMapping(path = "/get-all-veterinaries",  produces = "application/json")
+	@GetMapping(
+		path = "/get-all-veterinaries",  
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<List<VeterinaryListDTO>> findAllVeterinaries() {
 		return new ResponseEntity<>(veterynaryService.findAllVeterinaries(), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/get-veterinary/{email}", produces = "application/json")
+	@GetMapping(
+		path = "/get-veterinary/{email}", 
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<VeterinaryListDTO> findVeterinaryById(@PathVariable(name = "email")String email) {
 		return new ResponseEntity<>(veterynaryService.findVeterinaryByEmail(email), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/get-veterinaries-status/{status}", produces = "application/json")
+	@GetMapping(
+		path = "/get-veterinaries-status/{status}", 
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<List<VeterinaryListDTO>> findVeterinariesByStatus(@PathVariable(name = "status")EVeterinaryStatus status) {
 		return new ResponseEntity<>(veterynaryService.findVeterinariesByStatus(status), HttpStatus.OK);
 	}
-	
-	@PostMapping(path = "/registerV", consumes = "application/json")
-	public ResponseEntity<String> registerVeterinary(@RequestBody VeterinaryDTO veterinary) {
-		
+
+	@PostMapping(
+		path = "/registerV", 
+		consumes = MediaType.APPLICATION_JSON_VALUE
+	)
+	public ResponseEntity<String> registerVeterinary(
+		@RequestBody VeterinaryDTO veterinary,  
+        @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime start, 
+        @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime end) {
+									
 		if(veterynaryRepository.existsByEmail(veterinary.getEmail())) {
 			return new ResponseEntity<>("Email already exists", HttpStatus.BAD_REQUEST);
 		}
 		
-		veterynaryService.registerVeterinary(veterinary);
+		veterynaryService.registerVeterinary(veterinary, start, end, true);
 		emailServiceImpl.sendWelcomeEmail(veterinary.getEmail(), veterinary.getName().concat(" " +veterinary.getLast_name()));
 		
-		return new ResponseEntity<>("Veterinary was register succesfully!!", HttpStatus.OK);
+		return new ResponseEntity<>("Veterinary was registered successfully!!", HttpStatus.OK);
 	}
 	
 	@PutMapping("/update-veterinary/{email}")
@@ -73,6 +93,19 @@ public class VeterinaryController {
 		try {
 			veterynaryService.updateVeterinaryStatusById(email, veterinaryStatusDTO);
 			return new ResponseEntity<>("Veterinary status was updated succesfully!!", HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/update-schdule-veterinary/{id}")
+	public ResponseEntity<String> updateVeterinarySchedule(
+		@PathVariable Long id, 
+		@RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime start, 
+        @RequestParam("end") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime end) {
+		try {
+			veterynaryService.updateVeterinaryScheduleById(id, start, end, true);
+			return new ResponseEntity<>("Veterinary schedule was updated succesfully!!", HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}

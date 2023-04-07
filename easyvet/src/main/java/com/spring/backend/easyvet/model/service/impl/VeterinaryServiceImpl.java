@@ -1,5 +1,6 @@
 package com.spring.backend.easyvet.model.service.impl;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,10 +16,13 @@ import com.spring.backend.easyvet.dto.VeterinaryDTO;
 import com.spring.backend.easyvet.dto.VeterinaryListDTO;
 import com.spring.backend.easyvet.dto.VeterinaryStatusDTO;
 import com.spring.backend.easyvet.dto.VeterinaryUpdateDTO;
+import com.spring.backend.easyvet.exception.ResourceNotFoundException;
 import com.spring.backend.easyvet.model.entity.Role;
+import com.spring.backend.easyvet.model.entity.Schedule;
 import com.spring.backend.easyvet.model.entity.Specialization;
 import com.spring.backend.easyvet.model.entity.Veterinary;
 import com.spring.backend.easyvet.model.repository.IRoleRepository;
+import com.spring.backend.easyvet.model.repository.IScheduleRepository;
 import com.spring.backend.easyvet.model.repository.IVeterynaryRepository;
 import com.spring.backend.easyvet.model.service.ISpecializationService;
 import com.spring.backend.easyvet.model.service.IVeterynaryService;
@@ -35,6 +39,9 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 	
 	@Autowired
 	private ISpecializationService specializationService;
+
+	@Autowired
+	private IScheduleRepository scheduleRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -53,12 +60,11 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 	public List<VeterinaryListDTO> findAllVeterinaries() {
 	    return veterynaryRepository.findVeterinaries();
 	}
-
+	
 	@Override
-	public void registerVeterinary(VeterinaryDTO veterinary) {
-		
-		Veterinary user = new Veterinary();
-		
+	public void registerVeterinary(VeterinaryDTO veterinary, LocalTime start, LocalTime end, boolean isAvailable) {
+    	Veterinary user = new Veterinary();
+
 		try {
 			user.setCity(veterinary.getCity());
 			user.setCountry(veterinary.getCountry());
@@ -67,32 +73,37 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 			user.setName(veterinary.getName());
 			user.setPassword(passwordEncoder.encode(veterinary.getPassword()));
 			user.setPhone(veterinary.getPhone());
-			
+
 			Role role = roleRepository.findByName("ROLE_VETERYNARY").get();
 			user.setRole(role);
-			
+
 			user.setBank_account(veterinary.getBank_account());
 			user.setGeneral_rate(veterinary.getGeneral_rate());
 			user.setPriority_rate(veterinary.getPriority_rate());
 			user.setType_bank(veterinary.getType_bank());
-			
+
 			veterinary.setVeterinary_status(EVeterinaryStatus.DISPONIBLE);
-			
 			user.setVeterinary_status(veterinary.getVeterinary_status());
-			
-			Specialization specialization = specializationService.
-					findSpecializationById(veterinary.getSpecialization_id());
-			
+
+			Specialization specialization = specializationService.findSpecializationById(veterinary.getSpecialization_id());
 			user.setSpecialization_id(specialization.getId());
-			
+
 			user.setDni(veterinary.getDni());
-			
+
+			// Create schedule for veterinary
+			for (LocalTime hour = start; hour.compareTo(end) <= 0; hour = hour.plusHours(1)) {
+				Schedule schedule = new Schedule();
+				schedule.setHour(hour);
+				schedule.setAvailable(isAvailable);
+				schedule.setVeterinary(user);
+				user.getSchedule().add(schedule);
+			}
+
 			veterynaryRepository.save(user);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage().toString());
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, 
-					 "Required properties are missing");
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Required properties are missing");
 		}
 	}
 
@@ -157,6 +168,25 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
             throw new EntityNotFoundException("the veterinary with status " + status + " was not found");
         }
         return veterinaryListDTO; 
+	}
+
+	@Override
+	public void updateVeterinaryScheduleById(Long veterinaryId, LocalTime start, LocalTime end, boolean isAvailable) {
+		Veterinary veterinary = veterynaryRepository.findById(veterinaryId)
+				.orElseThrow(() -> new ResourceNotFoundException("Veterinary with id " + veterinaryId + " was not found"));
+
+		List<Schedule> existingSchedule = scheduleRepository.findByVeterinaryId(veterinaryId);
+		if (!existingSchedule.isEmpty()) {
+			scheduleRepository.deleteAll(existingSchedule);
+		}
+
+		for (LocalTime hour = start; hour.compareTo(end) <= 0; hour = hour.plusHours(1)) {
+			Schedule schedule = new Schedule();
+			schedule.setHour(hour);
+			schedule.setAvailable(isAvailable);
+			schedule.setVeterinary(veterinary);
+			scheduleRepository.save(schedule);
+		}
 	}
 
 }

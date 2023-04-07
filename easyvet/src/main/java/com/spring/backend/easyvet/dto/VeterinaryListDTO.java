@@ -4,10 +4,11 @@ import com.spring.backend.easyvet.util.EVeterinaryStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor @AllArgsConstructor @Getter @Setter
+@Setter
+@Getter
+@AllArgsConstructor
 public class VeterinaryListDTO {
 	private Long id;
 	private String dni;
