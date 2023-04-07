@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,17 +26,26 @@ public class PropietorController {
 	@Autowired
 	private IPropietorService propietorService;
 	
-	@GetMapping(path = "/get-all-propietors",  produces = "application/json")
+	@GetMapping(
+		path = "/get-all-propietors",  
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<List<PropietorListDTO>> findAllPropietors() {
 		return new ResponseEntity<>(propietorService.findAllPropietors(), HttpStatus.OK);
 	}
 	
-	@GetMapping(path = "/get-propietor/{email}", produces = "application/json")
+	@GetMapping(
+		path = "/get-propietor/{email}", 
+		produces = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<PropietorListDTO> findPropietorByEmail(@PathVariable(name = "email")String email) {
 		return new ResponseEntity<>(propietorService.findPropietorByEmail(email), HttpStatus.OK);
 	}
 	
-	@PostMapping(path = "/register", consumes = "application/json")
+	@PostMapping(
+		path = "/register", 
+		consumes = MediaType.APPLICATION_JSON_VALUE
+	)
 	public ResponseEntity<String> registerPropietor(@RequestBody Propietor propietor) {
 		if(propietorRepository.existsByEmail(propietor.getEmail())) {
 			return new ResponseEntity<>("El correo ya se encuentra registrado", HttpStatus.BAD_REQUEST);

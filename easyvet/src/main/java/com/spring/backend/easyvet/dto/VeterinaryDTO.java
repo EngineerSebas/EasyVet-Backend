@@ -73,7 +73,8 @@ public class VeterinaryDTO {
 			@JsonProperty("priority_rate") String priority_rate,
 			@JsonProperty("type_bank") String type_bank,
 			@JsonProperty("specialization_id") Long specialization_id,
-			@JsonProperty("veterinary_status") EVeterinaryStatus veterinary_status) {
+			@JsonProperty("veterinary_status") EVeterinaryStatus veterinary_status
+			) {
 		this.id = id;
 		this.dni = dni;
 		this.name = name;

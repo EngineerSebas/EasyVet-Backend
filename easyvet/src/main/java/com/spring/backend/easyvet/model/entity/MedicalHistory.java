@@ -1,5 +1,8 @@
 package com.spring.backend.easyvet.model.entity;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -54,5 +60,34 @@ public class MedicalHistory {
     private String observation;
 
     private String surgeries;
+
+    //followup
+    private String doctor;
+
+    private String comment;
+
+    @Column(nullable = false)
+    private LocalDateTime date;
+
+    //background medical details
+    private String diet;
+
+    private String previousDiseases;
+
+    private String recentTreatments;
+
+    private String animalBehavior;
+
+    //medical formula
+    private String duration;
+
+    private String diagnostic;
+
+    private String medicine;
+
+    @PrePersist
+    public void setCreationDate() {
+        this.date = LocalDateTime.now();
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.spring.backend.easyvet.model.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.spring.backend.easyvet.dto.VeterinaryDTO;
@@ -20,6 +22,10 @@ public interface IVeterynaryService {
 	
 	public void updateVeterinaryStatusById(String email, VeterinaryStatusDTO veterinaryStatusDTO);
 
-	public void registerVeterinary(VeterinaryDTO veterinary);
+	//public void registerVeterinary(VeterinaryDTO veterinary);
+
+	public void registerVeterinary(VeterinaryDTO veterinary, LocalTime start, LocalTime end, boolean isAvailable);
+
+	public void updateVeterinaryScheduleById(Long veterinaryId, LocalTime start, LocalTime end, boolean isAvailable);
 	
 }
