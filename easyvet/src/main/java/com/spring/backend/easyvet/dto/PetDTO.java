@@ -13,8 +13,8 @@ import lombok.Setter;
 
 /**
  * Pet DTO.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @NoArgsConstructor @Getter @Setter
@@ -34,6 +34,9 @@ public class PetDTO {
 
 	@NotEmpty
 	private String sex;
+
+	@NotEmpty
+	private String type;
 	
 	private Long propietor_id;
 	
@@ -43,12 +46,14 @@ public class PetDTO {
 			@JsonProperty("age")int age,
 			@JsonProperty("breed")String breed, 
 			@JsonProperty("sex")String sex,
+			@JsonProperty("type")String type,
 			@JsonProperty("propietor_id") Long propietor_id) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.breed = breed;
 		this.sex = sex;
+		this.type = type;
 		this.propietor_id = propietor_id;
 	}
 }

@@ -19,8 +19,8 @@ import lombok.Setter;
 
 /**
  * Entity Role.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @Entity

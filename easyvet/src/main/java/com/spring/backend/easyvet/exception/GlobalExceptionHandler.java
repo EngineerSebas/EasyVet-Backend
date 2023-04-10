@@ -27,8 +27,8 @@ import com.spring.backend.easyvet.dto.ExceptionResponseDTO;
 
 /**
  * Global Exception.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @RestControllerAdvice

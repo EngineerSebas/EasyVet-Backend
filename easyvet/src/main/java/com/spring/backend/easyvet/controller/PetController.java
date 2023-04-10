@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
  */
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/pet")
 @RequiredArgsConstructor
 public class PetController {

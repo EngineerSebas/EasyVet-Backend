@@ -14,13 +14,13 @@ public interface IAppoinmentService {
 
 	public List<Appoinment> findAllByPropietor_id(Long id);
 
-	public Appoinment findAppoinmentByIdVeterynary(Long id);
+	public List<Appoinment>  findAppoinmentByIdVeterynary(Long id);
 	
 	public List<Appoinment> findAllAppoinments();
 	
 	public Appoinment updateAppoinment(Long appoinmentId, Long propietorId, Long veterinaryId, AppoinmentDTO appoinmentDTO, LocalTime appoimentHour);
 	
 	public void deleteAppoinmentById(Long id);
-	
-	public void confirmAppointment(Long veterinaryId, Long appointmentId);
+
+	public void confirmAppointment(Long veterinaryId, Long appointmentId, Boolean confirmed);
 }

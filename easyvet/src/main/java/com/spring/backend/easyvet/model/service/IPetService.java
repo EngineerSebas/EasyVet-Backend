@@ -7,8 +7,8 @@ import com.spring.backend.easyvet.model.entity.Pet;
 
 /**
  * IPet Service.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 public interface IPetService {

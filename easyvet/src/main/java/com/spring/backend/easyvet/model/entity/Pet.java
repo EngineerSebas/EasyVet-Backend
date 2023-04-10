@@ -15,19 +15,21 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
  * Entity Role.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @Entity
 @Table(name = "pet")
 @NoArgsConstructor @Getter @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pet implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +49,9 @@ public class Pet implements Serializable{
 
 	@Column(nullable = false, length = 60)
 	private String sex;
+
+	@Column(nullable = false, length = 60)
+	private String type;
 	
 	@JsonIgnore
 	@Column(name = "propietor_id", nullable = false)

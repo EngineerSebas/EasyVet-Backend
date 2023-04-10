@@ -14,7 +14,7 @@ import com.spring.backend.easyvet.model.entity.MedicalHistory;
 import com.spring.backend.easyvet.model.service.IMedicalHistoryService;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 public class MedicalHistoryController {
 
 	@Autowired

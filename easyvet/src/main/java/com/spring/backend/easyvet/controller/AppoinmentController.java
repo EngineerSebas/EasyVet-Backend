@@ -18,7 +18,7 @@ import com.spring.backend.easyvet.model.entity.Appoinment;
 import com.spring.backend.easyvet.model.service.IAppoinmentService;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/appoinment")
 public class AppoinmentController {
 	
@@ -53,7 +53,7 @@ public class AppoinmentController {
 		path = "/get-appoinment-veterynary/{id}",
 		produces = MediaType.APPLICATION_JSON_VALUE
 	)
-	public ResponseEntity<Appoinment> getAppoinmentByIdVeterynary(@PathVariable("id") Long id){
+	public ResponseEntity<List<Appoinment>> getAppoinmentByIdVeterynary(@PathVariable("id") Long id){
 		return new ResponseEntity<>(appoinmentService.findAppoinmentByIdVeterynary(id), HttpStatus.OK);
 	}
 
@@ -89,12 +89,12 @@ public class AppoinmentController {
 		appoinmentService.deleteAppoinmentById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-	
+
 	@PreAuthorize("hasRole('VETERYNARY')")
-	@PutMapping("/veterinaries/{veterinaryId}/appointments/{appointmentId}/confirm")
-	public ResponseEntity<?> confirmAppointment(@PathVariable Long veterinaryId, @PathVariable Long appointmentId) {
-	    appoinmentService.confirmAppointment(veterinaryId, appointmentId);
-	    return ResponseEntity.ok().build();
+	@PutMapping("/veterinaries/{veterinaryId}/appointments/{appointmentId}/confirm/{confirmed}")
+	public ResponseEntity<?> confirmAppointment(@PathVariable Long veterinaryId, @PathVariable Long appointmentId, @PathVariable Boolean confirmed) {
+		appoinmentService.confirmAppointment(veterinaryId, appointmentId,confirmed);
+		return ResponseEntity.ok().build();
 	}
 	
 }

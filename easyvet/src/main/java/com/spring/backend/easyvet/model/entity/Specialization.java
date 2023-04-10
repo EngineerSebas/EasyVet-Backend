@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 /**
  * Entity Role.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @Entity

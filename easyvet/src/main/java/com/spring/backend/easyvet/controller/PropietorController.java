@@ -16,7 +16,7 @@ import com.spring.backend.easyvet.model.service.IPropietorService;
 
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/api/auth")
 public class PropietorController {
 	

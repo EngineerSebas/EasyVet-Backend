@@ -19,8 +19,8 @@ import lombok.Setter;
 
 /**
  * Entity User.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @MappedSuperclass

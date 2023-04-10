@@ -74,6 +74,7 @@ public class PetServiceImpl implements IPetService{
 		pet.setAge(petDTO.getAge());
 		pet.setBreed(petDTO.getBreed());
 		pet.setSex(petDTO.getSex());
+		pet.setType(petDTO.getType());
 		
 		return petRepository.save(pet);
 	}

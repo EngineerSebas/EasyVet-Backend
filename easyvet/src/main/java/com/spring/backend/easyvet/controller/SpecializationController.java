@@ -15,7 +15,7 @@ import com.spring.backend.easyvet.model.entity.Specialization;
 import com.spring.backend.easyvet.model.service.ISpecializationService;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/api/")
 public class SpecializationController {
 

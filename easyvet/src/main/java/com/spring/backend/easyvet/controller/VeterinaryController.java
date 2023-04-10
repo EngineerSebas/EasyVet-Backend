@@ -22,7 +22,7 @@ import com.spring.backend.easyvet.model.service.impl.EmailServiceImpl;
 import com.spring.backend.easyvet.util.EVeterinaryStatus;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/api/auth")
 public class VeterinaryController {
 	

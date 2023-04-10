@@ -65,7 +65,13 @@ public class Appoinment implements Serializable{
 	
 	@Column(nullable = false, length = 256)
 	private String videocall_meet;
-	
+
+	@Column(nullable = false, length = 256)
+	private String name_veterynary;
+
+	@Column(nullable = false, length = 256)
+	private String name_propietor;
+
 	@Enumerated(EnumType.STRING)
     @Column(name = "appoinment_status", nullable = false)
     private EAppoinmentStatus appoinment_status;

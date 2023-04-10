@@ -14,7 +14,7 @@ import com.spring.backend.easyvet.dto.LoginDTO;
 import com.spring.backend.easyvet.security.JwtTokenProvider;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin
 @RequestMapping("/api/auth")
 public class LoginController {
 	

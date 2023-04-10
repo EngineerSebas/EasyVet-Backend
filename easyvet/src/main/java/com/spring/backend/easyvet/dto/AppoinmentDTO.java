@@ -32,19 +32,31 @@ public class AppoinmentDTO {
 	
 	@NotEmpty(message = "videocall meet link is required")
 	private String videocall_meet;
-	
+
+	@NotEmpty(message = "veterinary name is required")
+	private String name_veterynary;
+
+	@NotEmpty(message = "veterinary name is required")
+	private String name_propietor;
+
+
 	private EAppoinmentStatus appoinment_status;
 	
 	public AppoinmentDTO(
 			@JsonProperty("type_appoinment")String type_appoinment,
-			@JsonProperty("date_appoinment")Date date_appoinment, 
+			@JsonProperty("date_appoinment")Date date_appoinment,
 			@JsonProperty("rate_appoinment")Double rate_appoinment,
-			@JsonProperty("videocall_meet") String videocall_meet ) {
+			@JsonProperty("videocall_meet") String videocall_meet,
+			@JsonProperty("name_veterynary") String name_veterynary,
+			@JsonProperty("name_propietor") String name_propietor) {
 		//this.id = id;
 		this.type_appoinment = type_appoinment;
 		this.date_appoinment = date_appoinment;
 		this.rate_appoinment = rate_appoinment;
 		this.videocall_meet = videocall_meet;
+		this.name_veterynary = name_veterynary;
+		this.name_propietor = name_propietor;
+
 	}
 	
 }

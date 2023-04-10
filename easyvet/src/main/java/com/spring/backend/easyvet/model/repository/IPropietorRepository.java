@@ -12,8 +12,8 @@ import com.spring.backend.easyvet.model.entity.Propietor;
 
 /**
  * IPropietor Repository.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @Repository

@@ -11,8 +11,8 @@ import lombok.Setter;
 
 /**
  * Exception Class.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter @Builder

@@ -15,8 +15,8 @@ import com.spring.backend.easyvet.util.EVeterinaryStatus;
 
 /**
  * Entity Role.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 @Entity
 @Table(name = "veterinary")

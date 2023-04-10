@@ -70,11 +70,13 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 		appoinment.setRate_appoinment(appoinmentDTO.getRate_appoinment());
 		appoinment.setType_appoinment(appoinmentDTO.getType_appoinment());
 		appoinment.setVideocall_meet(appoinmentDTO.getVideocall_meet());
+		appoinment.setName_veterynary(appoinmentDTO.getName_veterynary());
+		appoinment.setName_propietor(appoinmentDTO.getName_propietor());
 		// hora para la cita
 		appoinment.setAppoinmentHour(appoimentHour);
 		appoinment.setPropietor(propietorOptional);
 		appoinment.setVeterynary(veterinaryOptional);
-		appoinment.setAppoinment_status(EAppoinmentStatus.NOT_CONFIRMED);
+		appoinment.setAppoinment_status(EAppoinmentStatus.PENDING);
 
 		appoinmentRepository.save(appoinment);
 		return appoinment;
@@ -103,13 +105,14 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Appoinment findAppoinmentByIdVeterynary(Long id) {
-		Optional<Appoinment> appoinment = Optional.ofNullable(appoinmentRepository.findByVeterynary_id(id));
-		if (!appoinment.isPresent()) {
-			throw new ResourceNotFoundException("Appoinment with id " + id + " not found");
+	public List<Appoinment> findAppoinmentByIdVeterynary(Long id) {
+		List<Appoinment> appointments = appoinmentRepository.findByVeterynary_id(id);
+		if (appointments.isEmpty()) {
+			throw new ResourceNotFoundException("Appointments with veterinary id " + id + " not found");
 		}
-		return appoinment.get();
+		return appointments;
 	}
+
 
 
 	@Override
@@ -180,19 +183,23 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
             throw new ResourceNotFoundException("Appoinment not found with id " + id);
         }
 	}
-	
+
 	@Override
 	@Transactional
-	public void confirmAppointment(Long veterinaryId, Long appointmentId) {
-	    Appoinment appointment = appoinmentRepository.findById(appointmentId)
-	            .orElseThrow(() -> new ResourceNotFoundException("Appointment with id" + appointmentId + "not found"));
+	public void confirmAppointment(Long veterinaryId, Long appointmentId, Boolean confirmed) {
+		Appoinment appointment = appoinmentRepository.findById(appointmentId)
+				.orElseThrow(() -> new ResourceNotFoundException("Appointment with id" + appointmentId + "not found"));
 
-	    if (!appointment.getVeterynary().getId().equals(veterinaryId)) {
-	        throw new BadRequestException("This appointment doesn't belong to the provided veterinary.");
-	    }
+		if (!appointment.getVeterynary().getId().equals(veterinaryId)) {
+			throw new BadRequestException("This appointment doesn't belong to the provided veterinary.");
+		}
+		if(confirmed){
+			appointment.setAppoinment_status(EAppoinmentStatus.CONFIRMED);
+		}else {
+			appointment.setAppoinment_status(EAppoinmentStatus.NOT_CONFIRMED);
+		}
+		appoinmentRepository.save(appointment);
 
-	    appointment.setAppoinment_status(EAppoinmentStatus.CONFIRMED);
-	    appoinmentRepository.save(appointment);
 	}
 
 

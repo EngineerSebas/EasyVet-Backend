@@ -10,8 +10,8 @@ import com.spring.backend.easyvet.model.entity.Pet;
 
 /**
  * IPet Repository.
- * 
- * @author Andrés.
+ *
+ * @author Sebastian.
  */
 
 @Repository
