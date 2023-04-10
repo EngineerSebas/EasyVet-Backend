@@ -51,10 +51,10 @@ public class SpringSecurityConfig {
 	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
 			.authorizeHttpRequests()
-			.antMatchers("/api/auth/**").permitAll()
-			.antMatchers("/pet/**").permitAll()
-				.antMatchers("/**").permitAll()
+				.antMatchers("/pet/**").permitAll()
+				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/appoinment/**").permitAll()
+				.antMatchers("/**").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

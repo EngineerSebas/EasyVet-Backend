@@ -62,7 +62,13 @@ public class Appoinment implements Serializable{
 	
 	@Column(nullable = false, length = 256)
 	private String commentary;
-	
+
+	@Column(nullable = true, length = 256)
+	private String name_veterynary;
+
+	@Column(nullable = true, length = 256)
+	private String name_propietor;
+
 	@Column(nullable = false, length = 256)
 	private String videocall_meet;
 

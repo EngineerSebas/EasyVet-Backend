@@ -21,6 +21,6 @@ public interface IAppoinmentService {
 	public Appoinment updateAppoinment(Long appoinmentId, Long propietorId, Long veterinaryId, AppoinmentDTO appoinmentDTO, LocalTime appoimentHour);
 	
 	public void deleteAppoinmentById(Long id);
-
+	
 	public void confirmAppointment(Long veterinaryId, Long appointmentId, Boolean confirmed);
 }
