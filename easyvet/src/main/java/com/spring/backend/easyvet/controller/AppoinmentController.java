@@ -96,5 +96,10 @@ public class AppoinmentController {
 		appoinmentService.confirmAppointment(veterinaryId, appointmentId,confirmed);
 		return ResponseEntity.ok().build();
 	}
+
+	@GetMapping("/AllAppoinmentsWithPropietorAndVeterynary")
+	public List<Object[]> getAppoinmentsWithPropietorAndVeterynary() {
+		return appoinmentService.getAppoinmentsWithPropietorAndVeterynary();
+	}
 	
 }

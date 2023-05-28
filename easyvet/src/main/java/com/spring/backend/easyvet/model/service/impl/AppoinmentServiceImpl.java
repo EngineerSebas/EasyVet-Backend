@@ -72,6 +72,9 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 		appoinment.setVideocall_meet(appoinmentDTO.getVideocall_meet());
 		appoinment.setName_veterynary(appoinmentDTO.getName_veterynary());
 		appoinment.setName_propietor(appoinmentDTO.getName_propietor());
+		appoinment.setName_pet(appoinmentDTO.getName_pet());
+		appoinment.setType_pet(appoinmentDTO.getType_pet());
+		appoinment.setImg_profile_pet(appoinmentDTO.getImg_profile_pet());
 		// hora para la cita
 		appoinment.setAppoinmentHour(appoimentHour);
 		appoinment.setPropietor(propietorOptional);
@@ -200,6 +203,11 @@ public class AppoinmentServiceImpl implements IAppoinmentService{
 		}
 		appoinmentRepository.save(appointment);
 
+	}
+
+	@Override
+	public List<Object[]> getAppoinmentsWithPropietorAndVeterynary() {
+		return appoinmentRepository.findAllWithPropietorAndVeterynary();
 	}
 
 

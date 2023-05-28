@@ -23,4 +23,6 @@ public interface IAppoinmentService {
 	public void deleteAppoinmentById(Long id);
 
 	public void confirmAppointment(Long veterinaryId, Long appointmentId, Boolean confirmed);
+
+	public List<Object[]> getAppoinmentsWithPropietorAndVeterynary();
 }

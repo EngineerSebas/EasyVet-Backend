@@ -19,10 +19,10 @@ import com.spring.backend.easyvet.model.entity.Propietor;
 @Repository
 public interface IPropietorRepository extends CrudRepository<Propietor, Long>{
 
-	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (id,name, last_name, phone, country, city, email,dni) FROM Propietor propietor WHERE propietor.email = ?1")
+	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (id,name, last_name, phone, country, city, email,dni,img_profile) FROM Propietor propietor WHERE propietor.email = ?1")
 	public PropietorListDTO findPropietorByEmail(String email);
 	
-	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (id,name, last_name, phone, country, city, email, dni) FROM Propietor propietor")
+	@Query("SELECT new com.spring.backend.easyvet.dto.PropietorListDTO (id,name, last_name, phone, country, city, email, dni,img_profile) FROM Propietor propietor")
 	public List<PropietorListDTO> findAllPropietors();
 	
 	public Optional<Propietor> findByEmail(String email); 

@@ -53,7 +53,8 @@ public class VeterinaryDTO {
 	
 	@NotEmpty
 	private String type_bank;
-	
+
+	private  String img_profile;
 	private Long specialization_id;
 	
 	private EVeterinaryStatus veterinary_status;
@@ -72,6 +73,7 @@ public class VeterinaryDTO {
 			@JsonProperty("general_rate") String general_rate,
 			@JsonProperty("priority_rate") String priority_rate,
 			@JsonProperty("type_bank") String type_bank,
+			@JsonProperty("img_profile") String img_profile,
 			@JsonProperty("specialization_id") Long specialization_id,
 			@JsonProperty("veterinary_status") EVeterinaryStatus veterinary_status
 			) {
@@ -89,6 +91,7 @@ public class VeterinaryDTO {
 		this.general_rate = general_rate;
 		this.priority_rate = priority_rate;
 		this.type_bank = type_bank;
+		this.img_profile = img_profile;
 		this.specialization_id = specialization_id;
 		this.veterinary_status = veterinary_status;
 	}

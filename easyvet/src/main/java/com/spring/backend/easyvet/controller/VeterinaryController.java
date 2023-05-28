@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.spring.backend.easyvet.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -12,10 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.spring.backend.easyvet.dto.VeterinaryDTO;
-import com.spring.backend.easyvet.dto.VeterinaryListDTO;
-import com.spring.backend.easyvet.dto.VeterinaryStatusDTO;
-import com.spring.backend.easyvet.dto.VeterinaryUpdateDTO;
 import com.spring.backend.easyvet.model.repository.IVeterynaryRepository;
 import com.spring.backend.easyvet.model.service.IVeterynaryService;
 import com.spring.backend.easyvet.model.service.impl.EmailServiceImpl;
@@ -73,8 +70,8 @@ public class VeterinaryController {
 		}
 		
 		veterynaryService.registerVeterinary(veterinary, start, end, true);
-		emailServiceImpl.sendWelcomeEmail(veterinary.getEmail(), veterinary.getName().concat(" " +veterinary.getLast_name()));
-		
+
+
 		return new ResponseEntity<>("Veterinary was registered successfully!!", HttpStatus.OK);
 	}
 	
@@ -106,6 +103,17 @@ public class VeterinaryController {
 		try {
 			veterynaryService.updateVeterinaryScheduleById(id, start, end, true);
 			return new ResponseEntity<>("Veterinary schedule was updated succesfully!!", HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/update-profile-image-veterinary/{email}")
+	public ResponseEntity<String> updateProfileImageVeterinary(@PathVariable String email,
+															   @RequestBody VeterinaryImgProfileDTO veterinaryImgProfileDTO) {
+		try {
+			veterynaryService.updateUserProfileImageByEmail(email, veterinaryImgProfileDTO);
+			return new ResponseEntity<>("Profile image was updated successfully!", HttpStatus.OK);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}

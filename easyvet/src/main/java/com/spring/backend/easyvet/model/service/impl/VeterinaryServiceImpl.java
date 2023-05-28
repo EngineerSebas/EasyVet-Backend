@@ -1,10 +1,14 @@
 package com.spring.backend.easyvet.model.service.impl;
 
+import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.spring.backend.easyvet.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,10 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.spring.backend.easyvet.dto.VeterinaryDTO;
-import com.spring.backend.easyvet.dto.VeterinaryListDTO;
-import com.spring.backend.easyvet.dto.VeterinaryStatusDTO;
-import com.spring.backend.easyvet.dto.VeterinaryUpdateDTO;
 import com.spring.backend.easyvet.exception.ResourceNotFoundException;
 import com.spring.backend.easyvet.model.entity.Role;
 import com.spring.backend.easyvet.model.entity.Schedule;
@@ -81,7 +81,6 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 			user.setGeneral_rate(veterinary.getGeneral_rate());
 			user.setPriority_rate(veterinary.getPriority_rate());
 			user.setType_bank(veterinary.getType_bank());
-
 			veterinary.setVeterinary_status(EVeterinaryStatus.DISPONIBLE);
 			user.setVeterinary_status(veterinary.getVeterinary_status());
 
@@ -125,7 +124,6 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 			user.setName(veterinaryUpdateDTO.getName());
 			user.setPassword(passwordEncoder.encode(veterinaryUpdateDTO.getPassword()));
 			user.setPhone(veterinaryUpdateDTO.getPhone());
-			
 			user.setBank_account(veterinaryUpdateDTO.getBank_account());
 			user.setGeneral_rate(veterinaryUpdateDTO.getGeneral_rate());
 			user.setPriority_rate(veterinaryUpdateDTO.getPriority_rate());
@@ -152,12 +150,25 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 	@Transactional
 	public void updateVeterinaryStatusById(String email, VeterinaryStatusDTO veterinaryStatusDTO) {
 		Veterinary user = veterynaryRepository.findByEmail(email).get();
-		
+
 		try {
 			user.setVeterinary_status(veterinaryStatusDTO.getVeterinary_status());
 		} catch (Exception e) {
-			throw new ResponseStatusException( HttpStatus.BAD_REQUEST, 
+			throw new ResponseStatusException( HttpStatus.BAD_REQUEST,
 					 "Required properties are missing");
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateUserProfileImageByEmail(String email, VeterinaryImgProfileDTO userProfileImageDTO) {
+		Veterinary user = veterynaryRepository.findByEmail(email).orElseThrow(() ->
+				new ResponseStatusException(HttpStatus.NOT_FOUND, "Veterinary not found"));
+		try {
+			user.setImg_profile(userProfileImageDTO.getImg_profile());
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Required properties are missing");
 		}
 	}
 
@@ -172,6 +183,10 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 
 	@Override
 	public void updateVeterinaryScheduleById(Long veterinaryId, LocalTime start, LocalTime end, boolean isAvailable) {
+		if (start.compareTo(end) >= 0) {
+			throw new IllegalArgumentException("La hora de inicio debe ser menor que la hora de finalización.");
+		}
+
 		Veterinary veterinary = veterynaryRepository.findById(veterinaryId)
 				.orElseThrow(() -> new ResourceNotFoundException("Veterinary with id " + veterinaryId + " was not found"));
 
@@ -180,13 +195,25 @@ public class VeterinaryServiceImpl implements IVeterynaryService {
 			scheduleRepository.deleteAll(existingSchedule);
 		}
 
-		for (LocalTime hour = start; hour.compareTo(end) <= 0; hour = hour.plusHours(1)) {
-			Schedule schedule = new Schedule();
-			schedule.setHour(hour);
-			schedule.setAvailable(isAvailable);
-			schedule.setVeterinary(veterinary);
-			scheduleRepository.save(schedule);
-		}
+		// Intervalo de tiempo, por ejemplo, 1 hora
+		Duration timeInterval = Duration.ofHours(1);
+
+		long numberOfIntervals = Duration.between(start, end).dividedBy(timeInterval) + 1;
+
+		List<Schedule> newSchedules = Stream.iterate(start, hour -> hour.plus(timeInterval))
+				.limit(numberOfIntervals)
+				.map(hour -> {
+					Schedule schedule = new Schedule();
+					schedule.setHour(hour);
+					schedule.setAvailable(isAvailable);
+					schedule.setVeterinary(veterinary);
+					return schedule;
+				})
+				.collect(Collectors.toList());
+
+		scheduleRepository.saveAll(newSchedules);
 	}
+
+
 
 }

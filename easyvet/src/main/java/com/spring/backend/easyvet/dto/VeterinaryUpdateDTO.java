@@ -47,9 +47,9 @@ public class VeterinaryUpdateDTO {
 	
 	@NotEmpty
 	private String type_bank;
-	
+
 	private Long specialization_id;
-	
+
 	private String currentPassword;
 	
 	private EVeterinaryStatus veterinary_status;

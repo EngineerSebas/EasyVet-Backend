@@ -1,6 +1,9 @@
 package com.spring.backend.easyvet.controller;
 
 
+import com.spring.backend.easyvet.dto.EmailDTO;
+import com.spring.backend.easyvet.dto.ResetPasswordDTO;
+import com.spring.backend.easyvet.model.service.impl.LoginServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,9 @@ public class LoginController {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
+	@Autowired
+	private LoginServiceImpl loginService;
+
 	@PostMapping("/login")
 	public ResponseEntity<JwtAuthResponseDTO> authenticateUser(@RequestBody LoginDTO loginDTO){	
 		
@@ -36,5 +42,18 @@ public class LoginController {
 		
 		return ResponseEntity.ok(new JwtAuthResponseDTO(token));
 	}
-	
+	@PostMapping("/verify-email")
+	public ResponseEntity<?> verifyEmail(@RequestBody EmailDTO emailDTO) {
+		String partialDni = loginService.verifyEmail(emailDTO.getEmail());
+		return ResponseEntity.ok(partialDni);
+	}
+
+
+	@PostMapping("/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+		loginService.resetPassword(resetPasswordDTO);
+		return ResponseEntity.ok().build();
+	}
+
+
 }

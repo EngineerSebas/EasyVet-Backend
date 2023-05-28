@@ -14,13 +14,13 @@ import com.spring.backend.easyvet.util.EVeterinaryStatus;
 @Repository
 public interface IVeterynaryRepository extends CrudRepository<Veterinary, Long>{
 
-	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank, specialization_id, veterinary_status) FROM Veterinary veterinary WHERE veterinary.email = ?1")
+	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank, img_profile,specialization_id, veterinary_status) FROM Veterinary veterinary WHERE veterinary.email = ?1")
 	public VeterinaryListDTO findVeterinaryByEmail(String email);
 
-	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank, specialization_id, veterinary_status) FROM Veterinary veterinary")
+	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank,img_profile, specialization_id, veterinary_status) FROM Veterinary veterinary")
 	List<VeterinaryListDTO> findVeterinaries();
 	
-	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank, specialization_id, veterinary_status) FROM Veterinary veterinary WHERE veterinary.veterinary_status = ?1")
+	@Query("SELECT new com.spring.backend.easyvet.dto.VeterinaryListDTO (id,dni,name, last_name, phone, country, city, email, bank_account, general_rate, priority_rate, type_bank,img_profile, specialization_id, veterinary_status) FROM Veterinary veterinary WHERE veterinary.veterinary_status = ?1")
 	List<VeterinaryListDTO> findVeterinariesByStatus(EVeterinaryStatus status);
 
 	public Optional<Veterinary> findByEmail(String email); 

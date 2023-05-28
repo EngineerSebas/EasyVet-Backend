@@ -2,6 +2,8 @@ package com.spring.backend.easyvet.controller;
 
 import java.util.List;
 
+import com.spring.backend.easyvet.dto.PropietorImgProfileDTO;
+import com.spring.backend.easyvet.dto.VeterinaryImgProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -63,5 +65,15 @@ public class PropietorController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	
+
+	@PutMapping("/update-profile-image-propietor/{email}")
+	public ResponseEntity<String> updateProfileImageVeterinary(@PathVariable String email,
+															   @RequestBody PropietorImgProfileDTO propietorImgProfileDTO) {
+		try {
+			propietorService.updateUserProfileImageByEmail(email, propietorImgProfileDTO);
+			return new ResponseEntity<>("Profile image was updated successfully!", HttpStatus.OK);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
 }

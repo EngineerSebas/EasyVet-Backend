@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.spring.backend.easyvet.dto.PetImgProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,7 +39,7 @@ public class PetController {
         produces = MediaType.APPLICATION_JSON_VALUE
     )
 	public ResponseEntity<List<Pet>> getAllPets(){
-		return new ResponseEntity<>(petService.findAllPets(), HttpStatus.OK);
+        return new ResponseEntity<>(petService.findAllPets(), HttpStatus.OK);
 	}
 
     @PreAuthorize("hasRole('PROPIETOR')")
@@ -86,5 +87,16 @@ public class PetController {
         petService.deletePetById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-	
+
+    @PreAuthorize("hasRole('PROPIETOR')")
+    @PutMapping("/update-profile-image-pet/{id}")
+    public ResponseEntity<String> updateProfileImagePet(@PathVariable Long id,
+                                                        @RequestBody PetImgProfileDTO petImgProfileDTO) {
+        try {
+            petService.updatePetProfileImageById(id, petImgProfileDTO);
+            return new ResponseEntity<>("Pet profile image was updated successfully!", HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

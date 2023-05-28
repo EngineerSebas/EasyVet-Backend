@@ -2,8 +2,10 @@ package com.spring.backend.easyvet.model.service;
 
 import java.util.List;
 
+import com.spring.backend.easyvet.dto.PropietorImgProfileDTO;
 import com.spring.backend.easyvet.dto.PropietorListDTO;
 import com.spring.backend.easyvet.dto.PropietorUpdateDTO;
+import com.spring.backend.easyvet.dto.VeterinaryImgProfileDTO;
 import com.spring.backend.easyvet.model.entity.Propietor;
 
 public interface IPropietorService {
@@ -16,5 +18,5 @@ public interface IPropietorService {
 	
     public void registerPropietor(Propietor propietor);
     public void updatePropietor(String email, PropietorUpdateDTO propietorUpdateDTO, String currentPassword);
-	
+    public void updateUserProfileImageByEmail(String email, PropietorImgProfileDTO propietorImgProfileDTO);
 }

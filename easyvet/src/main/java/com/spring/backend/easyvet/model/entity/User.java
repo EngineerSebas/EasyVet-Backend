@@ -56,6 +56,9 @@ public class User implements Serializable {
 
 	@Column(nullable = false, length = 255)
 	private String password;
+
+	@Column(nullable = true, length = 255)
+	private String img_profile;
 	
 	@Transient
 	private String currentPassword;

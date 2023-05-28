@@ -5,8 +5,10 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.spring.backend.easyvet.dto.PetImgProfileDTO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import com.spring.backend.easyvet.model.repository.IPropietorRepository;
 import com.spring.backend.easyvet.model.service.IPetService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Pet ServiceImpl.
@@ -84,6 +87,21 @@ public class PetServiceImpl implements IPetService{
 	public void deletePetById(Long id) {
 		this.findPetById(id);
 		petRepository.deleteById(id);
+	}
+
+	@Override
+	@Transactional
+	public void updatePetProfileImageById(Long id, PetImgProfileDTO petImgProfileDTO) {
+		Pet pet = findPetById(id);
+		if (pet == null) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet not found");
+		}
+		try {
+			pet.setImg_profile(petImgProfileDTO.getImg_profile());
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Required properties are missing");
+		}
 	}
 
 	@Override

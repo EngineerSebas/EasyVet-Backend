@@ -22,6 +22,7 @@ public class VeterinaryListDTO {
 	private String general_rate;
 	private String priority_rate;
 	private String type_bank;
+	private String img_profile;
 	private Long specialization_id;
 	private EVeterinaryStatus veterinary_status;
 	

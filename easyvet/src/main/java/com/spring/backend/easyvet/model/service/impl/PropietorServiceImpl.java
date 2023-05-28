@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.spring.backend.easyvet.dto.PropietorImgProfileDTO;
+import com.spring.backend.easyvet.model.entity.Veterinary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -62,7 +64,7 @@ public class PropietorServiceImpl implements IPropietorService{
 			user.setName(propietor.getName());
 			user.setPassword(passwordEncoder.encode(propietor.getPassword()));
 			user.setPhone(propietor.getPhone());
-			
+
 			Role role = roleRepository.findByName("ROLE_PROPIETOR").get();
 			user.setRole(role);
 			
@@ -100,5 +102,18 @@ public class PropietorServiceImpl implements IPropietorService{
 					 "Required properties are missing");
 		}
 		
+	}
+
+	@Override
+	@Transactional
+	public void updateUserProfileImageByEmail(String email, PropietorImgProfileDTO propietorImgProfileDTO) {
+		Propietor user = propietorRepository.findByEmail(email).orElseThrow(() ->
+				new ResponseStatusException(HttpStatus.NOT_FOUND, "Propietor not found"));
+		try {
+			user.setImg_profile(propietorImgProfileDTO.getImg_profile());
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+					"Required properties are missing");
+		}
 	}
 }

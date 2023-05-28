@@ -52,7 +52,9 @@ public class Pet implements Serializable{
 
 	@Column(nullable = false, length = 60)
 	private String type;
-	
+
+	@Column(nullable = true, length = 255)
+	private String img_profile;
 	@JsonIgnore
 	@Column(name = "propietor_id", nullable = false)
 	private Long propietor_id;

@@ -38,7 +38,8 @@ public class PropietorDTO {
 
 	@NotEmpty
 	private String password;
-	
+
+	private String img_profile;
 	@NotNull(message = "The role id is required")
 	private Long role_id;
 	
@@ -52,6 +53,7 @@ public class PropietorDTO {
 			@JsonProperty("city") String city,
 			@JsonProperty("email") String email,
 			@JsonProperty("password") String password,
+			@JsonProperty("img_profile") String img_profile,
 			@JsonProperty("role_id") Long role_id) {
 		this.id = id;
 		this.dni = dni;
@@ -62,6 +64,7 @@ public class PropietorDTO {
 		this.email = email;
 		this.password = password;
 		this.role_id = role_id;
+		this.img_profile = img_profile;
 	}
 	
 }

@@ -36,10 +36,15 @@ public class AppoinmentDTO {
 	@NotEmpty(message = "veterinary name is required")
 	private String name_veterynary;
 
-	@NotEmpty(message = "veterinary name is required")
+	@NotEmpty(message = "propietor name is required")
 	private String name_propietor;
 
+	@NotEmpty(message = "pet name is required")
+	private String name_pet;
+	@NotEmpty(message = "type pet is required")
+	private String type_pet;
 
+	private String img_profile_pet;
 	private EAppoinmentStatus appoinment_status;
 	
 	public AppoinmentDTO(
@@ -48,6 +53,9 @@ public class AppoinmentDTO {
 			@JsonProperty("rate_appoinment")Double rate_appoinment,
 			@JsonProperty("videocall_meet") String videocall_meet,
 			@JsonProperty("name_veterynary") String name_veterynary,
+			@JsonProperty("name_pet") String name_pet,
+			@JsonProperty("type_pet") String type_pet,
+			@JsonProperty("img_profile_pet") String img_profile_pet,
 			@JsonProperty("name_propietor") String name_propietor) {
 		//this.id = id;
 		this.type_appoinment = type_appoinment;
@@ -56,6 +64,9 @@ public class AppoinmentDTO {
 		this.videocall_meet = videocall_meet;
 		this.name_veterynary = name_veterynary;
 		this.name_propietor = name_propietor;
+		this.name_pet = name_pet;
+		this.type_pet = type_pet;
+		this.img_profile_pet = img_profile_pet;
 
 	}
 	

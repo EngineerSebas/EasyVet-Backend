@@ -15,5 +15,6 @@ public class PropietorListDTO {
 	private String city;
 	private String email;
 	private String dni;
+	private String img_profile;
 	
 }

@@ -37,7 +37,8 @@ public class PetDTO {
 
 	@NotEmpty
 	private String type;
-	
+
+	private String img_profile;
 	private Long propietor_id;
 	
     @JsonCreator
@@ -47,6 +48,7 @@ public class PetDTO {
 			@JsonProperty("breed")String breed, 
 			@JsonProperty("sex")String sex,
 			@JsonProperty("type")String type,
+			@JsonProperty("img_profile")String img_profile,
 			@JsonProperty("propietor_id") Long propietor_id) {
 		this.id = id;
 		this.name = name;
@@ -55,5 +57,6 @@ public class PetDTO {
 		this.sex = sex;
 		this.type = type;
 		this.propietor_id = propietor_id;
+		this.img_profile = img_profile;
 	}
 }
